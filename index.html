@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#ff7a5c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Blobbo">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="description" content="A tiny world of blobs, relationships, and emergent physics.">
+
+  <title>Blobbo</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" href="./icons/icon-180.png">
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <canvas id="game" aria-label="Blobbo game world"></canvas>
+
+  <div id="hud" class="ui">
+    <div id="brandCard">
+      <span class="brand-mark" aria-hidden="true">●</span>
+      <span>BLOBBO</span>
+    </div>
+    <div id="scoreCard">
+      <div class="label">SCORE</div>
+      <div id="scoreVal">0</div>
+      <div id="sizeVal">size 26</div>
+    </div>
+  </div>
+
+  <div id="leaderboard" class="ui">
+    <div class="label">BLOBBOS</div>
+    <ol id="lbList"></ol>
+  </div>
+
+  <button id="installBtn" class="top-action hidden" type="button" aria-label="Install Blobbo">
+    <span aria-hidden="true">↓</span> INSTALL
+  </button>
+
+  <button id="anchorBtn" type="button" aria-label="Anchor">
+    <span id="anchorRing"></span>
+    <span class="anchorIcon" aria-hidden="true">⚓</span>
+    <span class="anchorLabel">ANCHOR</span>
+  </button>
+
+  <div id="hint" class="ui">Move: WASD / drag &nbsp;·&nbsp; Anchor: SPACE / button &nbsp;·&nbsp; drag rivals into hazards!</div>
+
+  <div id="deathOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="deathTitle">
+    <div class="modal-card">
+      <div id="deathTitle"></div>
+      <div id="deathReason"></div>
+      <div id="deathScore"></div>
+      <button id="restartBtn" type="button">PLAY AGAIN</button>
+    </div>
+  </div>
+
+  <div id="iosInstallOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="iosInstallTitle">
+    <div class="modal-card install-card">
+      <button id="closeInstallBtn" class="close-button" type="button" aria-label="Close">×</button>
+      <img src="./icons/icon.svg" alt="" width="88" height="88">
+      <h1 id="iosInstallTitle">Install Blobbo</h1>
+      <div class="install-step"><span class="step-icon" aria-hidden="true">□↑</span><span>Tap <strong>Share</strong></span></div>
+      <div class="install-step"><span class="step-icon" aria-hidden="true">＋</span><span>Tap <strong>Add to Home Screen</strong></span></div>
+    </div>
+  </div>
+
+  <div id="updateToast" class="toast hidden" role="status">
+    <span>A new little world is ready.</span>
+    <button id="updateBtn" type="button">UPDATE</button>
+  </div>
+
+  <noscript>Blobbo needs JavaScript to play.</noscript>
+  <script src="./game.js"></script>
+  <script src="./pwa.js"></script>
+</body>
+</html>
