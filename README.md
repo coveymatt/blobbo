@@ -9,7 +9,7 @@
 ## Scan to install
 
 <a href="https://coveymatt.github.io/blobbo/">
-  <img src="docs/install-qr.svg" width="420" alt="QR code that opens Blobbo">
+  <img src="docs/install-qr.png" width="420" alt="QR code that opens Blobbo">
 </a>
 
 **iPhone or iPad:** Open in Safari, tap **Share**, then **Add to Home Screen**.  
@@ -31,4 +31,3 @@ When changing the files listed in `service-worker.js`, increment `CACHE_NAME` be
 
 - Move: WASD, arrow keys, or drag on touchscreens
 - Anchor: Space or the anchor button
-
