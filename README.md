@@ -23,7 +23,7 @@ Blobbo is a browser-first experiment in emergent play. Blobs move, grow, collide
 
 ## Development
 
-The `main` branch deploys automatically to GitHub Pages through the included workflow. The service worker uses a network-first strategy so online players receive new releases promptly while the last working release remains available offline.
+The `main` branch publishes automatically through GitHub Pages. The service worker uses a network-first strategy so online players receive new releases promptly while the last working release remains available offline.
 
 When changing the files listed in `service-worker.js`, increment `CACHE_NAME` before publishing.
 
