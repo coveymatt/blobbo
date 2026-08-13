@@ -2,7 +2,7 @@
   "id": "./",
   "name": "Blobbo",
   "short_name": "Blobbo",
-  "description": "A tiny world of blobs, relationships, and emergent physics.",
+  "description": "A little world of memorable blobs that changes with how you treat it.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
