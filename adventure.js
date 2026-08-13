@@ -21,7 +21,8 @@
   let camera = { x: 470, y: 760, zoom: 1 };
   let pointer = { active: false, sx: 0, sy: 0, x: 0, y: 0 };
   const keys = {};
-  let tether = null, resetArmed = false, toastTimer = 0, hintHidden = false;
+  let tether = null, tetherHeld = false, tetherTTL = 0, reconnectBlock = null, reconnectUntil = 0;
+  let resetArmed = false, toastTimer = 0, hintHidden = false;
   let audio = null;
   const particles = [];
   const fireflies = Array.from({ length: 18 }, (_, i) => ({ x: 1420 + (i % 6) * 58 + Math.random() * 30, y: 690 + Math.floor(i / 6) * 65 + Math.random() * 25, p: Math.random() * 7 }));
@@ -108,12 +109,37 @@
     if (!answered) setBubble(player, "hello", 1.2);
     persist(); renderMemory();
   }
+  function beginTether(target) {
+    if (tether || (target === reconnectBlock && elapsed < reconnectUntil)) return;
+    meet(target);
+    tether = target;
+    tetherHeld = false;
+    tetherTTL = 2.4;
+    linkBtn.classList.add("active");
+    linkBtn.classList.remove("held");
+    linkBtn.setAttribute("aria-label", "Hold connection");
+    setBubble(target, target.role === "pebble" ? "question" : "heart", 1.1);
+    chirp(target);
+  }
+  function releaseTether(blockReconnect = true) {
+    if (!tether) return;
+    if (blockReconnect) { reconnectBlock = tether; reconnectUntil = elapsed + .8; }
+    tether = null;
+    tetherHeld = false;
+    tetherTTL = 0;
+    linkBtn.classList.remove("active", "held");
+    linkBtn.setAttribute("aria-label", "Hold connection");
+  }
   function toggleTether() {
-    if (tether) { tether = null; linkBtn.classList.remove("active"); return; }
-    let target = null, best = 220;
-    for (const b of residents) { const d = dist(player, b); if (d < best) { best = d; target = b; } }
-    if (!target) { setBubble(player, "question", 1.1); return; }
-    meet(target); tether = target; linkBtn.classList.add("active"); setBubble(target, "heart", 1.2); chirp(target);
+    if (!tether) { setBubble(player, "question", 1.1); return; }
+    if (!tetherHeld) {
+      tetherHeld = true;
+      linkBtn.classList.add("held");
+      linkBtn.setAttribute("aria-label", "Release connection");
+      setBubble(tether, "heart", 1.1);
+      return;
+    }
+    releaseTether(true);
   }
   function renderMemory() {
     memoryRow.innerHTML = residents.map(b => `<div class="memory-face${save.met[b.name] ? " met" : ""}" style="background:${b.color}" title="${b.name}">${save.trust[b.name] >= .45 ? '<span class="heart">♥</span>' : ""}</div>`).join("");
@@ -176,7 +202,13 @@
     const dx = b.x - a.x, dy = b.y - a.y, min = a.r + b.r, d = Math.hypot(dx, dy) || 1; if (d >= min) return;
     const nx = dx / d, ny = dy / d, overlap = min - d; a.x -= nx * overlap * .5; a.y -= ny * overlap * .5; b.x += nx * overlap * .5; b.y += ny * overlap * .5;
     const impact = Math.hypot(a.vx - b.vx, a.vy - b.vy); b.vx += nx * impact * .28; b.vy += ny * impact * .28;
-    if (a === player && b !== player) { meet(b); if (impact < 85) { save.trust[b.name] = clamp(save.trust[b.name] + .012, 0, 1); } else if (impact > 190 && b.role === "pebble") save.trust[b.name] = clamp(save.trust[b.name] - .025, 0, 1); }
+    if (a === player && b !== player) {
+      meet(b);
+      if (!tether) beginTether(b);
+      if (tether === b && !tetherHeld) tetherTTL = 2.4;
+      if (impact < 85) { save.trust[b.name] = clamp(save.trust[b.name] + .012, 0, 1); }
+      else if (impact > 190 && b.role === "pebble") save.trust[b.name] = clamp(save.trust[b.name] - .025, 0, 1);
+    }
   }
   function resolveSeedCollision(b, dt) {
     if (save.seedPlanted) return;
@@ -198,7 +230,11 @@
   }
   function updateTether(dt) {
     if (!tether) return;
-    const d = dist(player, tether); if (d > 390) { setBubble(tether, "fear", 1.1); tether = null; linkBtn.classList.remove("active"); return; }
+    if (!tetherHeld) {
+      tetherTTL -= dt;
+      if (tetherTTL <= 0) { releaseTether(false); return; }
+    }
+    const d = dist(player, tether); if (d > 390) { setBubble(tether, "fear", 1.1); releaseTether(true); return; }
     const dx = tether.x - player.x, dy = tether.y - player.y, len = d || 1, stretch = Math.max(0, d - 95), f = stretch * 2.2;
     player.vx += dx / len * f * dt; player.vy += dy / len * f * dt; tether.vx -= dx / len * f * dt * .8; tether.vy -= dy / len * f * dt * .8;
     if (stretch < 45) { save.trust[tether.name] = clamp(save.trust[tether.name] + dt * .012, 0, 1); }
