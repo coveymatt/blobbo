@@ -13,7 +13,7 @@
   let reloading = false;
 
   function revealInstallButton() {
-    if (!isStandalone) installButton.classList.remove("hidden");
+    if (!isStandalone && installButton) installButton.classList.remove("hidden");
   }
 
   window.addEventListener("beforeinstallprompt", event => {
@@ -24,13 +24,13 @@
 
   window.addEventListener("appinstalled", () => {
     installPrompt = null;
-    installButton.classList.add("hidden");
-    iosOverlay.classList.add("hidden");
+    installButton?.classList.add("hidden");
+    iosOverlay?.classList.add("hidden");
   });
 
   if (isIOS && !isStandalone) revealInstallButton();
 
-  installButton.addEventListener("click", async () => {
+  installButton?.addEventListener("click", async () => {
     if (installPrompt) {
       installPrompt.prompt();
       await installPrompt.userChoice;
@@ -38,20 +38,20 @@
       installButton.classList.add("hidden");
       return;
     }
-    iosOverlay.classList.remove("hidden");
+    iosOverlay?.classList.remove("hidden");
   });
 
-  closeInstallButton.addEventListener("click", () => iosOverlay.classList.add("hidden"));
-  iosOverlay.addEventListener("click", event => {
+  closeInstallButton?.addEventListener("click", () => iosOverlay?.classList.add("hidden"));
+  iosOverlay?.addEventListener("click", event => {
     if (event.target === iosOverlay) iosOverlay.classList.add("hidden");
   });
 
   function showUpdate(worker) {
     waitingWorker = worker;
-    updateToast.classList.remove("hidden");
+    updateToast?.classList.remove("hidden");
   }
 
-  updateButton.addEventListener("click", () => {
+  updateButton?.addEventListener("click", () => {
     if (waitingWorker) waitingWorker.postMessage({ type: "SKIP_WAITING" });
   });
 
