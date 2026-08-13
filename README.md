@@ -35,7 +35,7 @@ When changing the files listed in `service-worker.js`, increment `CACHE_NAME` be
 
 - Move with WASD, arrow keys, or by dragging on a touchscreen
 - Use ♥ to greet nearby residents
-- Use ∞ to connect with a nearby resident
+- Touch another Blobbo to connect automatically; use ∞ to hold or release the connection
 - Observe faces, movement and picture bubbles; essential interactions do not require reading
 - Progress is stored on the device
 
