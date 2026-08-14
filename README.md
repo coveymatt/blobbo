@@ -34,8 +34,9 @@ When changing the files listed in `service-worker.js`, increment `CACHE_NAME` be
 ## Adventure
 
 - Move with WASD, arrow keys, or by dragging on a touchscreen
-- Use ♥ to greet nearby residents
-- Touch another Blobbo to connect automatically; use ∞ to hold or release the connection
+- Touch another Blobbo—or the seed—to form a temporary connection
+- Use Space or ⚓ to anchor your Blobbo while pushing or pulling
+- Carry the seed across the bridge and place it in the brown planting hole
 - Observe faces, movement and picture bubbles; essential interactions do not require reading
 - Progress is stored on the device
 
