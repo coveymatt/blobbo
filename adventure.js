@@ -4,7 +4,7 @@
   const canvas = document.getElementById("world");
   const ctx = canvas.getContext("2d");
   const memoryRow = document.getElementById("memoryRow");
-  const anchorBtn = document.getElementById("anchorBtn");
+  const anchorBtn = document.getElementById("anchorBtn") || document.getElementById("linkBtn");
   const hint = document.getElementById("visualHint");
   const toast = document.getElementById("storyToast");
   const resetBtn = document.getElementById("resetBtn");
