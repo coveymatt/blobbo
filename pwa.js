@@ -65,7 +65,7 @@
 
   window.addEventListener("load", async () => {
     try {
-      const registration = await navigator.serviceWorker.register("./service-worker.js", { updateViaCache: "none" });
+      const registration = await navigator.serviceWorker.register("./service-worker.js?v=6", { updateViaCache: "none" });
 
       if (registration.waiting) showUpdate(registration.waiting);
 
