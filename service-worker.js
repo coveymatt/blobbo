@@ -1,18 +1,23 @@
 "use strict";
 
-const CACHE_NAME = "blobbo-v5";
+const CACHE_NAME = "blobbo-v6";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./menu.css",
   "./adventure.html",
+  "./adventure.html?v=6",
   "./adventure.css",
+  "./adventure.css?v=6",
   "./update-banner.css",
+  "./update-banner.css?v=6",
   "./adventure.js",
+  "./adventure.js?v=6",
   "./arena.html",
   "./styles.css",
   "./game.js",
   "./pwa.js",
+  "./pwa.js?v=6",
   "./manifest.webmanifest",
   "./icons/icon.svg",
   "./icons/icon-180.png",
